@@ -1,1 +1,1 @@
-SELECT * FROM users_react;
+SELECT * FROM workers_rwa;

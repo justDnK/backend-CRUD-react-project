@@ -12,36 +12,42 @@ public class UserService {
         this.repository = userRepository;
     }
 
-    public void createUserFunction(User userToCreate) {
+    public User createUserFunction(User userToCreate) {
         
         var newUser = new UserEntity(
             null,
             userToCreate.name(),
-            userToCreate.info()
+            userToCreate.age(),
+            userToCreate.position(),
+            userToCreate.salary()
         );
         
-        repository.save(newUser);
+        var newUserEntity = repository.save(newUser);
+        return converteEntity(newUserEntity);
 
     }
 
-    public List<User> showContent() {
-        List<UserEntity> usersListEnteties = repository.findAll();
 
-        List<User> allUsers = usersListEnteties.stream()
-            .map(this::converterFunction)
+    public User converteEntity(UserEntity userEntity) {
+        User userConverted = new User(
+            userEntity.getId(),
+            userEntity.getName(),
+            userEntity.getAge(),
+            userEntity.getPosition(),
+            userEntity.getSalary()
+        );
+
+        return userConverted;
+    }
+
+    public List<User> showUsersInfo() {
+        List<UserEntity> usersData = repository.findAll();
+        
+        List<User> usersDataConverted = usersData.stream()
+            .map(this::converteEntity)
             .toList();
-        
-        return allUsers;
-    }
 
-    public User converterFunction(UserEntity UserNotConverted) {
-        var convertedUser = new User(
-            UserNotConverted.getId(), 
-            UserNotConverted.getName(), 
-            UserNotConverted.getInfo()
-        );
-
-        return convertedUser;
+        return usersDataConverted;
     }
     
 }

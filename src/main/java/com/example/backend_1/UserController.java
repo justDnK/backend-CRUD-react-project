@@ -3,6 +3,7 @@ package com.example.backend_1;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,16 +22,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping 
-    public void createUser(
+    @PostMapping("/create")
+    public ResponseEntity<User> createUser(
         @RequestBody User userToCreate
     ) {
-        userService.createUserFunction(userToCreate);
-        log.info("function createUser was called.");
+        // userService.createUserFunction(userToCreate);
+        // log.info("function createUser was called.");
+
+        return ResponseEntity.ok()
+        .header("Create user function", "user created.")
+        .body(userService.createUserFunction(userToCreate));
+
     }
 
-    @GetMapping 
-    public List<User> showAllUsers() {
-        return userService.showContent();
+    @GetMapping("/show")
+    public ResponseEntity<List<User>> showUsersInfo() {
+        return ResponseEntity.ok(userService.showUsersInfo());
     }
+
 }

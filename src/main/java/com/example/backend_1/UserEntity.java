@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Table(name = "users_react")
+@Table(name = "workers_rwa")
 @Entity 
 public class UserEntity {
     @Id 
@@ -18,15 +18,23 @@ public class UserEntity {
     @Column(name="name")
     private String name;
 
-    @Column(name="info")
-    private String info;
+    @Column(name = "age")
+    private int age;
+
+    @Column(name="position")
+    private String position;
+
+    @Column(name="salary")
+    private int salary;
 
     public UserEntity() {}
 
-    public UserEntity(Long id, String name, String info) {
+    public UserEntity(Long id, String name, int age, String position, int salary) {
         this.id = id;
         this.name = name;
-        this.info = info;
+        this.age = age;
+        this.position = position;
+        this.salary = salary;
     }
 
     public Long getId() {
@@ -43,10 +51,24 @@ public class UserEntity {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
+    public int getAge() {
+        return age;
     }
-    public void setInfo(String info) {
-        this.info = info;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 }
