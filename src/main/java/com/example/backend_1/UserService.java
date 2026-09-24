@@ -49,5 +49,26 @@ public class UserService {
 
         return usersDataConverted;
     }
+
+    public void updateUserData(User userToUpdate) {
+        var userNotUpdatedOptional = repository.findById(userToUpdate.id());
+
+        var userNotUpdated = userNotUpdatedOptional.get();
+
+        var userToUpdateEntity = new UserEntity(
+            userNotUpdated.getId(),
+            userToUpdate.name(),
+            userToUpdate.age(),
+            userToUpdate.position(),
+            userToUpdate.salary()
+        );
+
+        repository.save(userToUpdateEntity);
+    }
+
+    public void deleteUser(Long id) {
+        repository.deleteById(id);
+    }
+
     
 }
