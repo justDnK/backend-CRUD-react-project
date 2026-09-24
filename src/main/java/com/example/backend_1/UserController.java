@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend_1.exception.UserDoesntExistException;
+
 import ch.qos.logback.classic.Logger;
 
 @RestController 
@@ -44,8 +46,9 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public void updateUserData(User userToUpdate) {
-        userService.updateUserData(userToUpdate);
+    public ResponseEntity<User> updateUserData(User userToUpdate) throws UserDoesntExistException {
+         return ResponseEntity.status(200) 
+            .body(userService.updateUserData(userToUpdate));
     }
 
     @DeleteMapping("/delete/{id}")

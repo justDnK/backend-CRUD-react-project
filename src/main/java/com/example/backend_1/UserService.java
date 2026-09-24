@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.backend_1.exception.UserDoesntExistException;
+
 @Service 
 public class UserService {
     private final UserRepository repository;
@@ -13,6 +15,14 @@ public class UserService {
     }
 
     public User createUserFunction(User userToCreate) {
+
+        if(userToCreate.age() < 18) {
+            throw new IllegalArgumentException("error: age is very young.");
+        }
+
+        if(userToCreate.salary() < 0) {
+            throw new IllegalArgumentException("error: very small salary.");
+        }
         
         var newUser = new UserEntity(
             null,
@@ -50,8 +60,13 @@ public class UserService {
         return usersDataConverted;
     }
 
-    public void updateUserData(User userToUpdate) {
+    public User updateUserData(User userToUpdate) throws UserDoesntExistException {
+
         var userNotUpdatedOptional = repository.findById(userToUpdate.id());
+
+        if(userNotUpdatedOptional.isEmpty()) {
+            throw new UserDoesntExistException("User doesnt exist. ");
+        }
 
         var userNotUpdated = userNotUpdatedOptional.get();
 
@@ -64,6 +79,8 @@ public class UserService {
         );
 
         repository.save(userToUpdateEntity);
+
+        return converteEntity(userToUpdateEntity);
     }
 
     public void deleteUser(Long id) {
