@@ -87,5 +87,13 @@ public class UserService {
         repository.deleteById(id);
     }
 
+    public User checkIdUser(Long id) {
+        var user = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User does not exist."));
+        
+        var checkedUser = converteEntity(user);
+        return checkedUser;
+    }
+
     
 }

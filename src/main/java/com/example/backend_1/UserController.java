@@ -46,7 +46,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<User> updateUserData(User userToUpdate) throws UserDoesntExistException {
+    public ResponseEntity<User> updateUserData(
+        @RequestBody User userToUpdate) throws UserDoesntExistException {
          return ResponseEntity.status(200) 
             .body(userService.updateUserData(userToUpdate));
     }
@@ -55,5 +56,13 @@ public class UserController {
     public void deleteUser(
         @PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/check/{id}")
+    public ResponseEntity<User> checkExistUser(
+        @PathVariable Long id
+    ) {
+        return ResponseEntity.status(200)
+            .body(userService.checkIdUser(id));
     }
 }
